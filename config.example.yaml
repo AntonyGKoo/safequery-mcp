@@ -1,0 +1,35 @@
+# Copy to config.yaml and edit. Relative paths resolve against this file.
+
+database:
+  # SQLite:      sqlite:///path/to/file.db
+  # PostgreSQL:  postgresql+psycopg://readonly_user:password@host:5432/dbname
+  # SQL Server:  mssql+pyodbc://readonly_user:password@host/dbname?driver=ODBC+Driver+18+for+SQL+Server
+  # MySQL:       mysql+pymysql://readonly_user:password@host/dbname
+  url: sqlite:///demo/erp_demo.db
+  dialect: sqlite            # sqlite | postgres | tsql | mysql
+
+limits:
+  max_rows: 200              # rows returned per query
+  timeout_seconds: 10        # longer queries are cancelled
+  max_cell_chars: 2000       # long text values are shortened
+  max_sql_chars: 20000       # longer statements are refused
+
+access:
+  # Required. The gateway refuses to start without an explicit list.
+  # Use schema.table for tables outside the default schema.
+  allowed_tables:
+    - customers
+    - orders
+  # Optional. Columns that may never be read or referenced.
+  restricted_columns:
+    customers: [email, phone]
+  # Optional. Functions the SQL parser does not know are refused unless named here.
+  allowed_functions: []
+
+audit:
+  path: audit/audit.jsonl
+
+# Optional. Shown to the assistant by list_tables and describe_table.
+table_descriptions:
+  customers: One row per customer account.
+  orders: Order headers.
